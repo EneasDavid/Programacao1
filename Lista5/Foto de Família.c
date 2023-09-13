@@ -1,40 +1,39 @@
 #include <stdio.h>
 #define MAX 4
 
-void trocarElementos(double *elementoAnterior, double *elementoNovo){
-    double variavelTemporaria = *elementoAnterior;
-    *elementoAnterior = *elementoNovo;
-    *elementoNovo = variavelTemporaria;
+void trocaElementos(double myArray[], int local) {
+    double temporario;
+    temporario=myArray[local];
+    myArray[local]=myArray[local+1];
+    myArray[local+1]=temporario;
 }
-//Verificar
-void po(double meuArray[],int posicao, int loop){
-    if(posicao < MAX-1){
-        if(meuArray[loop] > meuArray[posicao]){
-            return trocarElementos(&meuArray[posicao], &meuArray[loop]);
+void passagemArray(double myArray[], int tamanho, int local) {
+    if (local<tamanho-1) {
+        if (myArray[local]>myArray[local+1]) {
+            trocaElementos(myArray, local);
         }
-        return po(meuArray, loop, posicao+1);
+        passagemArray(myArray, tamanho, local+1);
     }
 }
-void ordenaArray(double meuArray[], int loop){
-    if(loop < MAX-1){
-        return po(meuArray, loop, loop+1);
+void ordenaArray(double myArray[], int tamanho) {
+    if (tamanho>0) {
+        passagemArray(myArray, tamanho, 0);
+        ordenaArray(myArray, tamanho-1);
     }
-    return ordenaArray(meuArray, loop+1);
+    return; 
 }
-
 void myFor(double meuArray[], int loop) {
-    if (loop < MAX) {
+    if (loop<MAX) {
         double entrada;
         scanf("%lf", &entrada);
-        meuArray[loop] = entrada;
+        meuArray[loop]=entrada;
         myFor(meuArray, loop+1);
     }
 }
-
 int main() {
     double altura[MAX];
     myFor(altura, 0);
-    ordenaArray(altura, 0);
-    printf("%.2lf\n%.2lf\n%.2lf\n%.2lf",altura[0],altura[1],altura[2],altura[3]);
+    ordenaArray(altura, MAX);
+    printf("%.2lf\n%.2lf\n%.2lf\n%.2lf", altura[0], altura[2], altura[3], altura[1]);  // Imprime o array ordenado
     return 0;
 }
