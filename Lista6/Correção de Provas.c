@@ -2,7 +2,7 @@
 #define MAX 10
 #define MAXALUNO 100
 
-//calcular a pontua??o de um aluno
+//calcular a pontuação de um aluno
 int correcao(char gabarito[], char resposta[], int contador) {
     if (contador < MAX) {
         if (gabarito[contador] == resposta[contador]) {
@@ -16,7 +16,7 @@ int correcao(char gabarito[], char resposta[], int contador) {
 //preencher um array de caracteres
 void preencher(char myArray[], int posicao) {
     if (posicao < MAX) {
-        scanf(" %c", &myArray[posicao]); //espa?o antes do %c para ignorar espa?os em branco
+        scanf(" %c", &myArray[posicao]); //espaço antes do %c para ignorar espaços em branco
         preencher(myArray, posicao + 1);
     }
     return;
@@ -32,7 +32,7 @@ void myWhile(int notasAlunos[][2], int acertos[], char gabarito[], int frequenci
         notasAlunos[*contador][0]=entrada;
         notasAlunos[*contador][1]=pontuacao;
         acertos[*contador]=pontuacao;
-        //registra a frequ?ncia da pontua??o
+        //registra a frequencia da pontuação
         frequenciaNotas[pontuacao]++;
         printf("%d %.1lf\n", notasAlunos[*contador][0], (double)notasAlunos[*contador][1]);
         (*contador)++;
@@ -62,7 +62,7 @@ int main() {
     char gabarito[MAX], provaSala[MAXALUNO][MAX];
     int notasAlunos[MAXALUNO][2], acertos[MAXALUNO], contador=0, aprovados=0, maisAparece=0,frequenciaNotas[11]={0};
     preencher(gabarito, 0);
-    //fun??o pra ler as respostas dos cornos
+    //função pra ler as respostas dos cornos
     myWhile(notasAlunos, acertos, gabarito, frequenciaNotas, &contador);
     //pra calcular a porcentagem de aprova??o
     aprovados=myFor(6,frequenciaNotas);
