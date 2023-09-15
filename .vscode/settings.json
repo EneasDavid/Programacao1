@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "Montando uma Ficha.C": "cpp",
+        "Soma de binário.C": "cpp",
+        "cmath": "c"
     }
 }
