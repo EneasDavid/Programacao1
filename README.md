@@ -8,8 +8,7 @@
 | -------- | -------- | -------- |
 |Enéas|def@ic.ufal.br|ciência|
 
-:warning:
-### Sobre a ordenação   :warning:
+### :warning: Sobre a ordenação :warning:
 
 ##  Os códigos estão ordenados de acordo com que foram passados em sala, sendo estuturados nos esguintes assuntos
  
