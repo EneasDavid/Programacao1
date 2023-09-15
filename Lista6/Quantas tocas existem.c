@@ -1,9 +1,9 @@
 #include <stdio.h>
 
-void ler(int myArray[], int posicao, int tam){
-    if (myArray<tam){
+void ler(int myArray[], int posicao, int tamanho){
+    if (posicao<tamanho){
         scanf("%d", &myArray[posicao]);
-        return ler(myArray, posicao+1, tam);        
+        return ler(myArray, posicao+1, tamanho);
     }
 	return;
 }
@@ -12,20 +12,20 @@ void rep(int myArray[], int posicao){
     if (myArray[posicao]!=-1){
         int box=myArray[posicao];
         myArray[posicao]=-1;
-        return rep(myArray, box);
+        return rep(myArray, box);    
     }
-    return;
+	return;
 }
 
 void toc(int myArray[], int posicao, int tamanho, int toca){
-    if (posicao<tamanho){
-		if (myArray[posicao]!=-1){
+    if(posicao<tamanho){
+        if(myArray[posicao]!=-1){
             rep(myArray, posicao);
             return toc(myArray,posicao+1,tamanho,toca+=1);
         }
         return toc(myArray, posicao+1, tamanho, toca);
     }
-    printf("%d\n", toca);
+	printf("%d\n", toca);
     return;
 }
 
