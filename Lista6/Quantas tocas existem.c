@@ -1,28 +1,30 @@
 #include <stdio.h>
 
-int osvaldo(int x, int tamanho, int v[]) {
-    if (x == tamanho) {
-        return 0;
+int contaToca(int i, int loop, int tamanho, int myArray[]){
+	if(loop < tamanho){
+        int contagem = (myArray[i] == loop) ? 1 : 0;
+        if(contagem == 0){
+            return contagem + contaToca(i + 1, loop, tamanho, myArray);
+        }else{
+            return contagem + contaToca(i, loop + i, tamanho, myArray);
+        }
     }
-    
-    int contagem = (v[x] != x) ? 1 : 0;
+	return 0;
+}
+void myFor(int myArray[], int loop, int tamanho){
+    if(loop<tamanho){
+	    scanf("%d", &myArray[loop]);
+    	myFor(myArray, loop + 1, tamanho);
+	}
+	return;
 
-    return contagem + osvaldo(x + 1, tamanho, v);
 }
 
-void looping(int v[], int ind, int tamanho) {
-    if (ind == tamanho) {
-        return;
-    }
-    scanf("%d", &v[ind]);
-    looping(v, ind + 1, tamanho);
-}
-
-int main() {
-    int n;
-    scanf("%d", &n);
-    int v[n];
-    looping(v, 0, n);
-    printf("%d", osvaldo(0, n, v));
+int main(){
+	int entrada;
+	scanf("%d", &entrada);
+	int tocas[entrada];
+	myFor(tocas, 0, entrada);
+	printf("%d", contaToca(0, 0, entrada, tocas));
     return 0;
 }
