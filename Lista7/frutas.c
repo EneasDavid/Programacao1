@@ -1,41 +1,27 @@
 #include <stdio.h>
-#include <string.h> // Inclua esta biblioteca para usar strtok
+#include <string.h>
+#define MAX 255
 
 int main() {
-    int qtnRep; 
-    scanf("%d", &qtnRep);
-    double totalPeso = 0.0;
-    double totalvalor = 0.0;
+    int dias, qtnTotal=0;
+    double valorTotal=0;
+    char frutas[MAX];
 
-    for (int teste = 1; teste <= qtnRep; teste++) {
-        double valorGasto;
-        scanf("%lf", &valorGasto);
+    scanf("%d", &dias);
 
-        char frutas[1000];
-        getchar(); 
-        fgets(frutas, sizeof(frutas), stdin);
-
-        double pesoDia = 0.0;
-        char *fruta = strtok(frutas, " \n"); 
-
-        printf("dia %d:", teste);
-
-        while (fruta != NULL) {
-            pesoDia++; 
-            printf(" %s", fruta);
-            fruta = strtok(NULL, " \n");
+    for(int i=1; i<=dias; i++) {
+        double valor;
+        scanf("%lf", &valor);
+        getchar(); // remove o caractere de nova linha deixado pelo scanf anterior
+        fgets(frutas, MAX, stdin);
+        int frutasDias=1;
+        for(int i=0; i<strlen(frutas); i++) {
+            if(frutas[i]==' ') frutasDias++;
         }
-
-        totalPeso += pesoDia;
-        totalvalor += valorGasto;
-
-        printf("\n");
+        qtnTotal+=frutasDias;
+        valorTotal+=valor;
+        printf("dia %d: %d kg\n", i, frutasDias);
     }
-
-    double mediaPeso = totalPeso / qtnRep;
-    double mediavalorGastoalor = totalvalor / qtnRep;
-
-    printf("%.2lf kg por dia\nR$ %.2lf por dia\n", mediaPeso, mediavalorGastoalor);
-
+    printf("%.2lf kg por dia\nR$ %.2lf por dia", (double)qtnTotal/dias, valorTotal/dias);
     return 0;
 }
