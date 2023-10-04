@@ -10,18 +10,13 @@ int main() {
             scanf("%d", &votos[linha][coluna]);
         }
     }
-    int transposta[qtdPrincesas][qtdEleitores];
-    for (int linha=0; linha<qtdPrincesas; linha++) {
-        for (int coluna=0; coluna<qtdEleitores; coluna++) {
-            transposta[linha][coluna] = votos[coluna][linha];
-        }
-    }
-    for (int linha=0; linha<qtdPrincesas; linha++) {
+
+    for (int princesa=0; princesa<qtdPrincesas; princesa++) {
         int cont=0;
-        for (int coluna=0; coluna<qtdEleitores; coluna++) {
-            cont+=transposta[linha][coluna];
+        for (int eleitor=0; eleitor<qtdEleitores; eleitor++) {
+            cont+=votos[eleitor][princesa];
         }
-        printf("Princesa %d: %d voto(s)\n", linha+1, cont);
+        printf("Princesa %d: %d voto(s)\n", princesa+1, cont);
     }
     return 0;
 }
