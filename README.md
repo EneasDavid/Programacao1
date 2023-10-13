@@ -44,5 +44,8 @@ Fique à vontade para explorar e utilizar esses códigos como referência ou par
 >   Prova 3 :heavy_check_mark:
 >    -   recursão e array
 
+>   Reavaliação :heavy_check_mark:
+>    -   assuntos basicos, input, operações matematicas, outinput, metodos, recursão, descição, recursão, array
+
 <img src="https://github.com/EneasDavid/Programacao1/blob/main/.github/Imagem%20do%20WhatsApp%20de%202023-08-03%20à(s)%2011.21.49.jpg"> <br> <sub> Todos esses felas da puta ajudaram de alguma forma na criação deste repositorio </sub> |
 | :---: |  
