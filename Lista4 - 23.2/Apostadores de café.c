@@ -1,148 +1,88 @@
 #include <stdio.h>
+#include <math.h>
 
-int empate = 0, kcaj = 0, ordep = 0;
+typedef struct jogador{
+    int vida;
+    int ataque;
+    int vitoria;
+}Jogador;
 
-int ePrimo(int digito, int valorVariante) {
-    if (digito < 2 || (digito % 2 == 0 && digito != 2)) {
-        return 0;
-    }
-    return digito % valorVariante ? 1 : ePrimo(digito, valorVariante + 1);
+int ehPrimo(int digito, int valorVariante) {
+    if(digito<2) return 0;
+    if(valorVariante<2) return 1; 
+    return !(digito%valorVariante)?0:ehPrimo(digito, valorVariante-1);
 }
 
-int ehPotenciaDeDois(int n, int pow) {
-    if (pow == n) {
+int ehPotencia(int valor){
+    if(valor==1) return 1;
+    return !(valor%2)?ehPotencia(valor>>1):0;
+}
+
+int ehImpar(int valor){
+    return valor%2;
+}
+
+void habPedro(Jogador *pedro){
+    if(pedro->vida>pedro->ataque){
+        pedro->vida=pedro->vida^pedro->ataque;
+        pedro->ataque=pedro->vida^pedro->ataque;
+        pedro->vida=pedro->vida^pedro->ataque;
+    }
+}
+
+
+void habjack(Jogador *jack){
+    if(ehImpar(jack->vida)) jack->ataque+=5;
+}
+
+void preencheStruct(Jogador *jogadorCadastro, int vida, int ataque, int vitoria){
+    jogadorCadastro->vida=vida;
+    jogadorCadastro->ataque=ataque;
+    jogadorCadastro->vitoria=vitoria;
+}
+
+int verificaVitoria(Jogador *ataquente, Jogador *atacado){
+     if(atacado->vida<=0){
+        ataquente->vitoria+=1;
         return 1;
-    } else if (pow > n) {
-        return 0;
-    } else {
-        return ehPotenciaDeDois(n, pow * 2);
-    }
+     }  
+     else return 0;
 }
 
-void habilidadeOrdep(int *ataque, int *vida) {
-    if (*vida > *ataque) {
-        int temp = *ataque;
-        *ataque = *vida;
-        *vida = temp;
+void simulacaoBatalha(Jogador *pedro, Jogador *jack, int rodada){
+    //printf("Rodada %d\nVida de Pedro: %d Ataque de Pedro: %d\nVida de Jack: %d Ataque de Jack: %d\n",rodada,pedro->vida, pedro->ataque, jack->vida, jack->ataque);
+    if(!ehPotencia(rodada)){
+        habPedro(pedro);
+        jack->vida-=pedro->ataque;
+        if(verificaVitoria(pedro, jack)) return; 
     }
+    if(!ehPrimo(rodada, sqrt(rodada))){
+        habjack(jack);
+        pedro->vida-=jack->ataque;
+        if(verificaVitoria(jack, pedro)) return; 
+    }
+    simulacaoBatalha(pedro, jack, rodada+1);
 }
 
-void habilidadeKcaj(int *ataque, int *vida) {
-    if (*vida % 2)
-        *ataque += 5;
-}
-
-int simularBatalha(int v1, int v2, int d1, int d2, int rodada) {
-    if (v1 <= 0 || v2 <= 0) {
-        return (v1 <= 0) ? 0 : 1;
-    }
-
-    if (ePrimo(rodada, 2)) {
-        habilidadeOrdep(&d1, &v1);
-        v2 -= d1;
-    } else {
-        habilidadeOrdep(&d1, &v1);
-        v2 -= d1;
-    }
-
-    if (ehPotenciaDeDois(rodada, 2)) {
-        habilidadeKcaj(&d2, &v2);
-        v1 -= d2;
-    } else {
-        habilidadeKcaj(&d2, &v2);
-        v1 -= d2;
-    }
-
-    return simularBatalha(v1, v2, d1, d2, rodada + 1);
-}
-
-void myFor(int valor){
-    if (!valor) return;
-    int ataqueOrdep, vidaOrdep, ataqueKcaj, vidaKcaj;
-    scanf("%d %d %d %d", &ataqueOrdep, &vidaOrdep, &ataqueKcaj, &vidaKcaj);
-    int resultado = simularBatalha(vidaOrdep, vidaKcaj, ataqueOrdep, ataqueKcaj, 1);
-    if(resultado==0) kcaj++;
-    else if(resultado==1) ordep++;
-    else empate++;
-    myFor(valor - 1);
+void myWhile(int contador, Jogador *pedro, Jogador *jack){
+    if(!contador) return;
+    int vidaP, ataqueP, vidaJ, ataqueJ;
+    scanf("%d%d%d%d", &ataqueP, &vidaP, &ataqueJ, &vidaJ);
+    preencheStruct(pedro, vidaP, ataqueP, pedro->vitoria);
+    preencheStruct(jack, vidaJ, ataqueJ, jack->vitoria);
+    simulacaoBatalha(pedro, jack, 1);
+    myWhile(contador-1, pedro, jack);
 }
 
 int main(){
     int entrada;
+    Jogador Pedro, Jack;
+    Pedro.vitoria=0;
+    Jack.vitoria=0;
     scanf("%d", &entrada);
-    myFor(entrada);
-    if(empate>0 || ordep == kcaj) {
-        printf("F coffees\n");
-    }else if(ordep>kcaj){
-        printf("ordep ganhou %d coffees\n", ordep);
-    }else if(kcaj>ordep){
-        printf("kcaj ganhou %d coffees\n", kcaj);
-    }
+    myWhile(entrada, &Pedro, &Jack);
+    if(Pedro.vitoria==Jack.vitoria) printf("F coffees");
+    else if(Pedro.vitoria>Jack.vitoria) printf("ordep ganhou %d coffees", Pedro.vitoria);
+    else if(Jack.vitoria>Pedro.vitoria) printf("kcaj ganhou %d coffees", Jack.vitoria);
     return 0;
 }
-/*
-Exemplos de:
-Entrada
-
-2 41 123 34 73 32 213 32 214
-Saída
-
-F coffees
-Entrada
-
-15
-22   426
-13   353
-23   225
-22   88
-40   478
-11   467
-7   381
-2   205
-23   265
-15   466
-22   237
-37   197
-14   250
-19   193
-11   63
-27   288
-28   132
-10   461
-16   293
-40   402
-7   434
-46   344
-31   151
-35   142
-12   414
-22   179
-20   236
-39   124
-23   427
-42   179
-
-Saída
-ordep ganhou 10 coffees
-
-entrada
-5
-37  160
-27   255
-12   451
-9   359
-46   378
-48   284
-37   278
-37   588
-5   26
-1   308
-
-Saída
-kcaj ganhou 3 coffees
-
-entrada
-
-Saída
-kcaj ganhou 2 coffees
-*/
