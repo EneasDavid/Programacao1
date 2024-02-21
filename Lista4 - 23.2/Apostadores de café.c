@@ -30,7 +30,6 @@ void habPedro(Jogador *pedro){
     }
 }
 
-
 void habjack(Jogador *jack){
     if(ehImpar(jack->vida)) jack->ataque+=5;
 }
