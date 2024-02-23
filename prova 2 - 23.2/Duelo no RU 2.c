@@ -20,7 +20,7 @@ int myWhile2(int qtnAmigos, int ekulVida, int ekulAtaque){
     if(!qtnAmigos) return;
     scanf("%d %c", &confianca, &estaComFome);
     if(estaComFome == 'F' && Fibonacci(confianca)){
-        mudaVida(ekulVida, confianca%100);
+        ekulmudaVida(ekulVida, confianca%100);
         mudaAtaque(ekulAtaque, (confianca%100)/2);
     }
     myWhile2(qtnAmigos-1, ekulVida, ekulAtaque);

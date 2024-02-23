@@ -1,21 +1,21 @@
 #include <stdio.h>
 
 void distanciaPortao(int posicao, int esquerda, int direita, int achouE, int achouD, int pasos, int cont){
-    printf("%d %d %d %d %d %d %d\n", posicao, cont, pasos, esquerda, direita,cont-esquerda==posicao, cont-direita==posicao, achouE, achouD);
     if(!achouD || !achouE){
+        pasos+=cont;
         if(cont%2){
             //direita
-            pasos+=cont;
-            if(cont-esquerda==posicao) achouD=pasos;
-            distanciaPortao(posicao, esquerda, cont, achouE, pasos, pasos, cont+1);
+            direita=cont-esquerda;
+            if(direita==posicao && !achouD) achouD=pasos;
+            distanciaPortao(posicao, esquerda, direita, achouE, achouD, pasos, cont+1);
         }else{
             //esquerda
-            pasos+=cont;
-            if(cont-direita==posicao) achouE=pasos;
-            distanciaPortao(posicao, cont, direita, pasos, achouD, pasos, cont+1);
+            esquerda=cont-direita;
+            if(esquerda==posicao && !achouE) achouE=pasos;
+            distanciaPortao(posicao, esquerda, direita, achouE, achouD, pasos, cont+1);
         }  
     }else{
-        printf("%d %d\n", achouE, achouD);
+        printf("%d %d\n", achouD, achouE);
         return ;
     }
 }
