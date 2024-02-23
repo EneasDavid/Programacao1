@@ -1,0 +1,8 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/davideneas/Desktop/gitHub/Programacao1/prova 2 - 23.2/output/Em Busca do Ouro Branco'
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _encontrarPorta, symObjAddr: 0x0, symBinAddr: 0x100003E14, symSize: 0x110 }
+  - { offsetInCU: 0x41, offset: 0x41, size: 0x8, addend: 0x0, symName: _encontrarPorta, symObjAddr: 0x0, symBinAddr: 0x100003E14, symSize: 0x110 }
+  - { offsetInCU: 0x9D, offset: 0x9D, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x110, symBinAddr: 0x100003F24, symSize: 0x60 }
+...
