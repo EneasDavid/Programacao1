@@ -1,46 +1,82 @@
 #include <stdio.h>
 
-int mudaAtaque(int ataque, int bonus){
-    return ataque+bonus;
-}
-
-int mudaVida(int vida, int bonus){
-    return vida+bonus;
-}
-
-int Fibonacci(int n){
-    if(n==0) return 0;
-    if(n==1) return 1;
-    return Fibonacci(n-1)+Fibonacci(n-2);
-}
-
-int myWhile2(int qtnAmigos, int ekulVida, int ekulAtaque){
-    int confianca;
-    char estaComFome;
-    if(!qtnAmigos) return;
-    scanf("%d %c", &confianca, &estaComFome);
-    if(estaComFome == 'F' && Fibonacci(confianca)){
-        ekulmudaVida(ekulVida, confianca%100);
-        mudaAtaque(ekulAtaque, (confianca%100)/2);
+int saoCoprimos(int a, int b){
+    while (!b){
+        int temp=b;
+        b=a%b;
+        a=temp;
     }
-    myWhile2(qtnAmigos-1, ekulVida, ekulAtaque);
+    return a==1;
 }
 
-void myWhile( int rounds){
-    int ekulVida, ekulAtaque, lukeVida, lukeAtaque, qtnAmigos;
-    if(rounds) return;
-    scanf("%d%d%d%d%d", &ekulVida, &ekulAtaque, &lukeVida, &lukeAtaque, &qtnAmigos);
-    myWhile2(qtnAmigos, ekulVida, ekulAtaque);
-    
-    if(ekulVida>lukeVida){
-        printf("Ekul\n");
-    }else{
-        printf("Luke\n");
+void calcularBonus(int confianca, char estado, int vidaBase, int *bonusVida, int *bonusAtaque){
+    if(estado=='F'){
+        int a=0, b=1;
+        while(b<=confianca){
+            if(b==confianca){
+                *bonusVida=b%100;
+                *bonusAtaque=(*bonusVida)/2;
+                return;
+            }
+            int temp=a+b;
+            a=b;
+            b=temp;
+        }
+    } else if(estado=='C' && saoCoprimos(confianca, vidaBase)) {
+        *bonusVida=(confianca/10)%10;
+        *bonusAtaque=(*bonusVida)/2;
     }
 }
+
 int main(){
-    int rounds;
-    scanf("%d", &rounds);
-    myWhile;
+    int N;
+    scanf("%d", &N);
+
+    int vidaBaseEkul, ataqueBaseEkul, vidaBaseLuke, ataqueBaseLuke;
+    int bonusVidaEkul, bonusAtaqueEkul;
+
+    for(int i=0; i<N; i++){
+        scanf("%d %d %d %d", &vidaBaseEkul, &ataqueBaseEkul, &vidaBaseLuke, &ataqueBaseLuke);
+        int M;
+        scanf("%d", &M);
+        bonusVidaEkul = 0;
+        bonusAtaqueEkul = 0;
+        for (int j=0; j<M; j++) {
+            int confianca;
+            char estado;
+            scanf("%d %c", &confianca, &estado);
+
+            int bonusVida, bonusAtaque;
+            calcularBonus(confianca, estado, vidaBaseEkul, &bonusVida, &bonusAtaque);
+
+            bonusVidaEkul += bonusVida;
+            bonusAtaqueEkul += bonusAtaque;
+        }
+
+        // Início do duelo
+        while (1) {
+            // Ekul ataca primeiro
+            vidaBaseLuke -= (ataqueBaseEkul + bonusAtaqueEkul);
+            if (vidaBaseLuke <= 0) {
+                printf("Ekul venceu o round!\nVida restante: %d\n", vidaBaseEkul);
+                break;
+            }
+
+            // Luke ataca em resposta
+            vidaBaseEkul -= (ataqueBaseLuke + bonusAtaqueEkul);
+            if (vidaBaseEkul <= 0) {
+                printf("Luke venceu o round!\nVida restante: %d\n", vidaBaseLuke);
+                break;
+            }
+        }
+    }
+
+    // Verifica o vencedor final do duelo
+    if (vidaBaseEkul <= 0) {
+        printf("Luke concluiu seu plano maligno!\n");
+    } else {
+        printf("Ekul liberou a entrada do RU!\n");
+    }
+
     return 0;
 }

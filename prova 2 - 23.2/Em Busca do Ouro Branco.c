@@ -16,7 +16,7 @@ void distanciaPortao(int posicao, int esquerda, int direita, int achouE, int ach
         }  
     }else{
         printf("%d %d\n", achouD, achouE);
-        return ;
+        return ; 
     }
 }
 
