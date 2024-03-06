@@ -8,9 +8,9 @@ void myFor(int array[], int contador){
 void bubble(int contador, int array[]){
     if(contador<0) return;
     if(array[contador]<array[contador+1]) { //Ordenar do maior para o menor
-        int auxiliar=array[contador];
-        array[contador]=array[contador+1];
-        array[contador+1]=auxiliar;
+        array[contador]=array[contador]^array[contador+1];
+        array[contador+1]=array[contador+1]^array[contador];
+        array[contador]=array[contador]^array[contador+1];
     }
     bubble(contador-1, array);
 }

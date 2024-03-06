@@ -5,7 +5,6 @@ void imprimir(int contador, int impar, int array[]){
     else printf("par[%d] = %d\n", contador, array[contador]);
 };
 
-
 void preencherArray(int contador, int qtnImpar, int qtnPar, int impar[], int par[]){
     if(!contador){
         if(qtnImpar>0) imprimir(qtnImpar-1, 1, impar);
