@@ -1,5 +1,6 @@
 #include <stdio.h>
 #define MAX 100
+
 void imprimir(int array[], int posicao, int tamanho) {
     if (posicao==tamanho) {
         printf("%d\n", array[posicao]);
@@ -42,14 +43,13 @@ void inversao(int array[], int arrayInverso[], int contador, int contadorInverso
     inversao(array, arrayInverso, contador-1, contadorInverso+1);
 }
 
-
-void myFor(int contador, int array[], int array2[]) {
-    int entrada, arrayParImpar[MAX];
+void myFor(int contador, int array[]) {
+    int entrada;
     if (scanf("%d", &entrada) != EOF) {
         array[contador] = entrada;
-        myFor(contador + 1, array, array2);
+        myFor(contador + 1, array);
     } else {
-        int arrayInvertido[MAX], arrayImparPar[MAX], arraySoma[MAX];
+        int arrayInvertido[MAX], arrayParImpar[MAX], arraySoma[MAX];
         inversao(array, arrayInvertido, contador - 1, 0);
         imparesPares(array, arrayParImpar, 0, 0, contador);
         soma(arrayInvertido, arrayParImpar, arraySoma, contador);
@@ -64,7 +64,7 @@ void myFor(int contador, int array[], int array2[]) {
 }
 
 int main() {
-    int array[MAX], array2[MAX];
-    myFor(0, array, array2);
+    int array[MAX];
+    myFor(0, array);
     return 0;
 }
