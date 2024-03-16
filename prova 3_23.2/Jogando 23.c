@@ -16,7 +16,6 @@ int achaMelhorCarta(int faltaBea, int faltaHugo, int cartasOut[], int contador) 
     achaMelhorCarta(faltaBea, faltaHugo, cartasOut, contador+1);
 }
 
-
 int somaCartas(int array[], int contador){
     if(contador<0) return 0;
     return array[contador]+somaCartas(array, contador-1);
