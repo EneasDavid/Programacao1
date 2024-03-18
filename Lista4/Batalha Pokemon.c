@@ -1,3 +1,4 @@
+#include <stdio.h>
 int batalha(int v1, int v2, int d1, int d2) {
     if (v1 <= 0) {
         return 0;
