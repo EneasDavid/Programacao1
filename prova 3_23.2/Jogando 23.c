@@ -1,7 +1,6 @@
 #include <stdio.h>
 
 int achaMelhorCarta(int faltaBea, int faltaHugo, int cartasOut[], int contador) {
-    if(faltaBea>10) return -1;
     if(faltaBea-contador==0 || faltaHugo-contador<0){
         if(contador>9 && contador<14) {
             int verifica;
