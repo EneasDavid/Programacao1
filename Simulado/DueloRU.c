@@ -9,12 +9,8 @@ typedef struct {
     int classe;
     double ataque;
     double vida;
+    int vitoria;
 } Carta;
-
-typedef struct {
-    int vitoria[3];
-    char nome[MAX];
-} Jogador;
 
 void calcularBonus(Carta *carta, Carta *cartaDois) {
    //    Caso 1: Duelo entre Guerreiro(1) e Arqueiro(3). O guerreiro recebe um aumento de 30% em relação a sua vida.
@@ -34,7 +30,7 @@ void calcularBonus(Carta *carta, Carta *cartaDois) {
     }
 }
 
-void determinarVencedor(Carta *cartaUm, Carta *cartaDois, Jogador *um, Jogador *dois, int rodada) {
+void determinarVencedor(Carta *cartaUm, Carta *cartaDois) {
     //a carta com menos vida ataca primeiro (Caso sejam iguais, Pedro começa)
     if (cartaUm->vida > cartaDois->vida) {
         cartaUm->vida -= cartaDois->ataque;
@@ -47,16 +43,16 @@ void determinarVencedor(Carta *cartaUm, Carta *cartaDois, Jogador *um, Jogador *
         if (cartaDois->vida > 0) cartaUm->vida -= cartaDois->ataque;
     }
     //O vencedor do duelo é aquele cuja carta conseguir matar a carta inimiga
-    if (cartaUm->vida <= 0) dois->vitoria[rodada]++;
-    else if (cartaDois->vida <= 0) um->vitoria[rodada]++;
+    if (cartaUm->vida <= 0) cartaDois->vitoria++;
+    else if (cartaDois->vida <= 0) cartaUm->vitoria++;
     else {
         //Em casos em que nenhuma carta foi eliminada, o vencedor é aquele com mais pontos de vida
-        if(cartaUm->vida>cartaDois->vida) um->vitoria[rodada]++;
-        else if(cartaUm->vida<cartaDois->vida) dois->vitoria[rodada]++;
+        if(cartaUm->vida>cartaDois->vida) cartaUm->vitoria++;
+        else if(cartaUm->vida<cartaDois->vida) cartaDois->vitoria++;
         else{
             //Caso ainda tenha empates, o vencedor será aquele com maior pontos de ataque.
-            if (cartaUm->ataque > cartaDois->ataque) um->vitoria[rodada]++;
-            else if (cartaUm->ataque < cartaDois->ataque) dois->vitoria[rodada]++;
+            if (cartaUm->ataque > cartaDois->ataque) cartaUm->vitoria++;
+            else if (cartaUm->ataque < cartaDois->ataque) cartaDois->vitoria++;
         }
     }
 }
@@ -65,17 +61,14 @@ void recebeCarta(Carta *carta) {
     scanf("%d %lf %lf", &carta->classe, &carta->ataque, &carta->vida);
 }
 
-int soma(Jogador jogador) {
-    return jogador.vitoria[0] + jogador.vitoria[1] + jogador.vitoria[2];
+int soma(Carta carta, Carta cartaDois, Carta cartaTres) {
+    return carta.vitoria+cartaDois.vitoria+cartaTres.vitoria;
 }
 
 int main() {
     Carta cartaPedroUm, cartaPedroDois, cartaPedroTres;
     Carta cartaTulioUm, cartaTulioDois, cartaTulioTres;
 
-    Jogador pedro = {{0, 0, 0}, "Pedro"};
-    Jogador tulio = {{0, 0, 0}, "Tulio"};
-    
     recebeCarta(&cartaPedroUm);
     recebeCarta(&cartaPedroDois);
     recebeCarta(&cartaPedroTres);
@@ -88,16 +81,16 @@ int main() {
     calcularBonus(&cartaPedroDois, &cartaTulioDois);
     calcularBonus(&cartaPedroTres, &cartaTulioTres);
 
-    determinarVencedor(&cartaPedroUm, &cartaTulioUm, &pedro, &tulio, 0);   
-    determinarVencedor(&cartaPedroDois, &cartaTulioDois, &pedro, &tulio, 1);
-    determinarVencedor(&cartaPedroTres, &cartaTulioTres, &pedro, &tulio, 2);
+    determinarVencedor(&cartaPedroUm, &cartaTulioUm);   
+    determinarVencedor(&cartaPedroDois, &cartaTulioDois);
+    determinarVencedor(&cartaPedroTres, &cartaTulioTres);
 
-    printf("Rodada1: %s\n", pedro.vitoria[0] > tulio.vitoria[0] ? pedro.nome : (pedro.vitoria[0] < tulio.vitoria[0] ? tulio.nome : "Empate"));
-    printf("Rodada2: %s\n", pedro.vitoria[1] > tulio.vitoria[1] ? pedro.nome : (pedro.vitoria[1] < tulio.vitoria[1] ? tulio.nome : "Empate"));
-    printf("Rodada3: %s\n", pedro.vitoria[2] > tulio.vitoria[2] ? pedro.nome : (pedro.vitoria[2] < tulio.vitoria[2] ? tulio.nome : "Empate"));
+    printf("Rodada1: %s\n", cartaPedroUm.vitoria>cartaTulioUm.vitoria?"Pedro":cartaPedroUm.vitoria<cartaTulioUm.vitoria?"Tulio":"Empate");
+    printf("Rodada2: %s\n", cartaPedroDois.vitoria>cartaTulioDois.vitoria?"Pedro":cartaPedroDois.vitoria<cartaTulioDois.vitoria?"Tulio":"Empate");
+    printf("Rodada3: %s\n", cartaPedroTres.vitoria>cartaTulioTres.vitoria?"Pedro":cartaPedroTres.vitoria<cartaTulioTres.vitoria?"Tulio":"Empate");
 
-    if (soma(pedro) > soma(tulio)) printf("Pedro vitorioso\n");
-    else if (soma(tulio) > soma(pedro)) printf("Tulio vitorioso\n");
+    if (soma(cartaPedroUm, cartaPedroDois, cartaPedroTres) > soma(cartaTulioUm, cartaTulioDois, cartaTulioTres)) printf("Pedro vitorioso\n");
+    else if (soma(cartaPedroUm, cartaPedroDois, cartaPedroTres) < soma(cartaTulioUm, cartaTulioDois, cartaTulioTres)) printf("Tulio vitorioso\n");
     else printf("Empate\n");
 
     return 0;
