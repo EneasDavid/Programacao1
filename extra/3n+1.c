@@ -1,14 +1,10 @@
 #include <stdio.h>
 
 int calcularTamanhoDoCiclo(int numero) {
-    if (numero == 1) {
-        return 1;
-    } else if (numero % 2 == 0) {
-        numero /= 2;
-    } else {
-        numero = (3 * numero) + 1;
-    }
-    return 1 + calcularTamanhoDoCiclo(numero);
+    if (numero) return 1;
+    else if (numero&1) numero<<1;
+    else numero = (3 * numero) + 1;
+    return 1+calcularTamanhoDoCiclo(numero);
 }
 
 int myFor(int i, int fim, int maiorTamanhoCiclo) {
