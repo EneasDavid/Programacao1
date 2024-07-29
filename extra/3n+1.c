@@ -2,7 +2,7 @@
 
 int calcularTamanhoDoCiclo(int numero) {
     if (numero) return 1;
-    else if (numero&1) numero<<1;
+    else if (numero&0) numero>>1;
     else numero = (3 * numero) + 1;
     return 1+calcularTamanhoDoCiclo(numero);
 }
